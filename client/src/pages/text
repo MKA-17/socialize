@@ -1,0 +1,127 @@
+import React, { useEffect, useState } from "react";
+import PostCard from "../components/PostCard";
+import CreatePost from "../components/CreatePost";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useAuth } from "../context/auth";
+
+export default function Home() {
+  const [auth] = useAuth();
+  const [postsList, setPostsList] = useState([]);
+  const [pagination, setPagination] = useState({
+    pageNo: 1,
+    totalPosts: 0
+  })
+
+  // let {
+  //   data: getPostsData,
+  //   isLoading,
+  //   isError,
+  //   refetch: getPostRefetch,
+  // } = useQuery({
+  //   queryKey: ["userData"],
+  //   queryFn: async () => {
+  //     let resp = await fetch(`http://localhost:3001/api/post/get-post`, {
+  //       method: "POST",
+  //       headers: {
+  //         authorization: auth.token,
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({pageNo: pagination.pageNo})
+  //     });
+
+  //     return resp.json();
+  //   },
+  // });
+
+  const getPostMutation = useMutation({
+    mutationFn: async (variables) => {
+      return (
+        await fetch(
+          `http://localhost:3001/api/post/get-post`, {
+        method: "POST",
+        headers: {
+          authorization: auth.token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({pageNo: pagination.pageNo})
+          }
+        )
+      ).json();
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("Inside getPost mutation: ", data, variables);
+      if (data.success) {
+        setPagination(prev => ({...prev, totalPosts: data.totalCount }))
+        setPostsList(prev => [...prev, ...data?.post])      }
+    },
+    onError: (error, variables, context) => {
+      console.log("error: ", error);
+      //toast.error('Some Error has been occurred')
+    },
+  });
+
+
+ 
+  useEffect(() => {
+    // Fetch posts when the component mounts or when pageNo changes
+    getPostMutation.mutate();
+  }, [pagination.pageNo]);
+
+  const handleScroll = () => {
+    const distanceToBottom =
+      document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
+    if (distanceToBottom === 0) {
+      if (postsList.length < pagination.totalPosts) {
+        setPagination((prev) => ({ ...prev, pageNo: prev.pageNo + 1 }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      console.log("unmount useEffect");
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [postsList.length, pagination.totalPosts]);
+
+  console.log("setPostsList: ", postsList, pagination.pageNo);
+
+  return (
+    <>
+       <div className="col-md-8">
+        {/* Main content area */}
+        <div className="card-body">
+ 
+
+          <CreatePost getPostRefetch={getPostMutation.mutate} />
+        </div>
+        <div className="card mb-3"></div>
+        {/* Display posts here */}
+        {postsList?.length ?
+          postsList?.map((e) => (
+            <PostCard
+              key={e._id}
+              postData={e}
+              getPostRefetch={getPostMutation.mutate}
+            />
+          ))
+        :null}
+        {getPostMutation.isLoading ? "Loading..." : null}
+
+      </div>
+      <div className="col-md-4">
+        {/* Sidebar content */}
+        <div className="card">
+          <div className="card-body">
+            {/* User information */}
+            <h5 className="card-title">User Info</h5>
+            <p className="card-text">Username: john_doe</p>
+            <p className="card-text">Email: john.doe@example.com</p>
+          </div>
+        </div>
+        {/* Add more sidebar components as needed */}
+      </div>
+    </>
+  );
+}
