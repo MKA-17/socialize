@@ -17,7 +17,7 @@ export default function SearchModal({ isSearchModal, setIsSearchModal }) {
   const searchUserMutation = useMutation({
     mutationFn: async (variables) => {
       return (
-        await fetch(`http://localhost:3001/api/user/find-user`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/user/find-user`, {
           method: "POST",
           headers: {
             authorization: auth.token,
@@ -28,7 +28,7 @@ export default function SearchModal({ isSearchModal, setIsSearchModal }) {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside SearchQuery mutation: ", data, variables);
+      // console.log("Inside SearchQuery mutation: ", data, variables);
       if (data.success && data?.userDetails) {
         setSearchList(data.userDetails);
       }
@@ -40,12 +40,12 @@ export default function SearchModal({ isSearchModal, setIsSearchModal }) {
   });
 
   const handleSearch = () => {
-    console.log("search: ", searchQuery);
+    // console.log("search: ", searchQuery);
     if (searchQuery.trim()) searchUserMutation.mutate({ searchQuery });
   };
 
   const handleNavigate = (profileId) => {
-    console.log("navigate ids: ", profileId, auth?.user?.id);
+    // console.log("navigate ids: ", profileId, auth?.user?.id);
 
     profileId === auth?.user?.id
       ? navigate(`/profile`)
@@ -69,7 +69,7 @@ export default function SearchModal({ isSearchModal, setIsSearchModal }) {
           <div className="flex-grow-1">
             <input
               className="form-control"
-              placeholder="Write a comment..."
+              placeholder="Search people..."
               id="searchInput"
               value={searchQuery}
               style={{ overflow: "hidden" }}
@@ -94,7 +94,7 @@ export default function SearchModal({ isSearchModal, setIsSearchModal }) {
                 key={e._id}
               >
                 <img
-                  src={`http://localhost:3001/api/auth/get-image/${e._id}`}
+                  src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${e._id}`}
                   alt="User Profile"
                   className="rounded-circle mr-2"
                   style={{ width: "40px", height: "40px" }}

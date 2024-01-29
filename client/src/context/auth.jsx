@@ -16,7 +16,7 @@ export const AuthProvider = ({children})=>{
 //console.log("inside authcontent")
     //Since when we reload page, all the states got refresh to their initial state, 
     //thus to persist our value in the sate, we'll use localStorage.
-    console.log(auth)
+    // console.log(auth)
 
     useEffect(()=>{
         let data = JSON.parse(window.localStorage.getItem("auth"));
@@ -25,9 +25,9 @@ export const AuthProvider = ({children})=>{
 
         if(auth?.token){
             let tokenExpiry = JSON.parse(atob(auth.token.split(".")[1]))?.exp * 1000
-            console.log("expire token: ", data, new Date(tokenExpiry ), tokenExpiry - Date.now())
+            // console.log("expire token: ", data, new Date(tokenExpiry ), tokenExpiry - Date.now())
             const intervalId = setInterval(() => {
-                console.log("inside interval")
+                // console.log("inside interval")
                 window.localStorage.removeItem("auth");
                 setAuth(({
                     user: '',

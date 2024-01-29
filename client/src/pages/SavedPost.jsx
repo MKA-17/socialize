@@ -21,7 +21,7 @@ export default function SavedPost() {
       } = useQuery({
         queryKey: ["postData"],
         queryFn: async () => {
-          let resp = await fetch(`http://localhost:3001/api/user/get-saved-post/`, {
+          let resp = await fetch(`${import.meta.env.VITE_API_URL}/api/user/get-saved-post/`, {
             method: "GET",
             headers: {
               authorization: auth.token,

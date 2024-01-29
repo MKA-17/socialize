@@ -73,15 +73,36 @@ export default function Navbar() {
               )}
             </ul>
           </div>
-          {auth.token ? (
-            <div onClick={() => setIsSearchModal(true)}>
-              {" "}
-              <FontAwesomeIcon icon={faSearch} color="white" />
-            </div>
-          ) : null}
+          
         </div>
       </nav>
+      <nav className="navbar  navbar-expand-md bg-primary navbar-dark">
+<div className="container">
+ 
+{auth.token ? (
+   <div className="card-body d-flex align-items-start"
+   onClick={() => setIsSearchModal(true)}  
 
+   >
+   <div className="flex-grow-1">
+     <input
+       className="form-control"
+        id="searchInput"
+  placeholder="Search people"        
+     />
+   </div>
+   <button
+     type="button"
+     className="btn btn-primary ms-2"
+      >
+     <FontAwesomeIcon icon={faSearch} color="white" />
+   </button>
+ </div>
+          ) : null}
+ 
+  
+</div>
+</nav>
       <SearchModal
         isSearchModal={isSearchModal}
         setIsSearchModal={setIsSearchModal}

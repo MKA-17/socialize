@@ -7,7 +7,8 @@ import toast, {Toaster} from "react-hot-toast";
 
 export default function Login(){
     
-  const [helmetObj, setHelmetObj] = useHelmet()
+  const [helmetObj, setHelmetObj] = useHelmet();
+  
   useEffect(()=>{
       setHelmetObj((prev)=>({...prev, title: "Login | Socialize"}))
       return ()=>{setHelmetObj((prev)=>({...prev, title: "Socialize"}))}
@@ -24,7 +25,7 @@ export default function Login(){
         mutationFn: async (variables) => {
           
           return (
-            await fetch(`http://localhost:3001/api/auth/login`, {
+            await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
               method: "POST",
               headers: {
                 'Content-Type': 'application/json' // Setting the Content-Type header to JSON
@@ -34,13 +35,13 @@ export default function Login(){
           ).json();
         },
         onSuccess: (data, variables, context) => {
-          console.log("Inside LoginForm mutation: ", data, variables)
+          // console.log("Inside LoginForm mutation: ", data, variables)
           if(data.success) {
             toast.success(data.message)
           if(data.isPassword) 
            { 
             setAuth((prev)=>{
-              console.log("meow", JSON.stringify({ user: auth.user, token: auth.token }))
+              // console.log("meow", JSON.stringify({ user: auth.user, token: auth.token }))
               window.localStorage.setItem(
                 "auth",
                 JSON.stringify({ token: data.token, user: data.user })
@@ -53,7 +54,7 @@ export default function Login(){
           if(data.success === false)   toast.error(data.message) 
          },
         onError: (error, variables, context) => {
-          console.log("error: ", error.message);
+          // console.log("error: ", error.message);
           toast.error('Some Error has been occurred') 
         },
       });   
@@ -61,8 +62,8 @@ export default function Login(){
 
     const handleSubmit = (e)=>{
         e.preventDefault();
-        //console.log(e.target);
-        console.log(formData);
+        console.log(e.target);
+        // console.log(formData);
       
 
         loginMutation.mutate(formData)

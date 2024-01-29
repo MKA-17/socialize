@@ -37,7 +37,7 @@ export default function PostCard({ postData, getPostRefetch }) {
     mutationFn: async (variables) => {
       return (
         await fetch(
-          `http://localhost:3001/api/post/like-post/${variables.postId}/${variables.userId}`,
+          `${import.meta.env.VITE_API_URL}/api/post/like-post/${variables.postId}/${variables.userId}`,
           {
             method: "PUT",
             headers: {
@@ -48,7 +48,7 @@ export default function PostCard({ postData, getPostRefetch }) {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside likePost mutation: ", data, variables);
+      // console.log("Inside likePost mutation: ", data, variables);
       if (data.success) {
         getPostRefetch();
       }
@@ -63,7 +63,7 @@ export default function PostCard({ postData, getPostRefetch }) {
     mutationFn: async (variables) => {
       return (
         await fetch(
-          `http://localhost:3001/api/post/share-post/${variables.postId}`,
+          `${import.meta.env.VITE_API_URL}/api/post/share-post/${variables.postId}`,
           {
             method: "PUT",
             headers: {
@@ -74,7 +74,7 @@ export default function PostCard({ postData, getPostRefetch }) {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside sharePost mutation: ", data, variables);
+      // console.log("Inside sharePost mutation: ", data, variables);
       if (data.success) {
         getPostRefetch();
       }
@@ -89,7 +89,7 @@ export default function PostCard({ postData, getPostRefetch }) {
     mutationFn: async (variables) => {
       return (
         await fetch(
-          `http://localhost:3001/api/post/save-post/${variables.postId}/${variables.userId}`,
+          `${import.meta.env.VITE_API_URL}/api/post/save-post/${variables.postId}/${variables.userId}`,
           {
             method: "PUT",
             headers: {
@@ -100,7 +100,7 @@ export default function PostCard({ postData, getPostRefetch }) {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside savePost mutation: ", data, variables);
+      // console.log("Inside savePost mutation: ", data, variables);
       if (data.success) {
         getPostRefetch();
         //savedPostRefetch();
@@ -121,7 +121,7 @@ export default function PostCard({ postData, getPostRefetch }) {
 
       return (
         await fetch(
-          `http://localhost:3001/api/post/edit-post/${variables.postId}`,
+          `${import.meta.env.VITE_API_URL}/api/post/edit-post/${variables.postId}`,
           {
             method: "PUT",
             headers: {
@@ -133,7 +133,7 @@ export default function PostCard({ postData, getPostRefetch }) {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside editPost mutation: ", data, variables);
+      // console.log("Inside editPost mutation: ", data, variables);
       if (data.success) {
         getPostRefetch();
         setIsEditModal(false);
@@ -149,7 +149,7 @@ export default function PostCard({ postData, getPostRefetch }) {
     mutationFn: async (variables) => {
       return (
         await fetch(
-          `http://localhost:3001/api/post/delete-post/${variables.postId}`,
+          `${import.meta.env.VITE_API_URL}/api/post/delete-post/${variables.postId}`,
           {
             method: "DELETE",
             headers: {
@@ -160,7 +160,7 @@ export default function PostCard({ postData, getPostRefetch }) {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside DeletePost mutation: ", data, variables);
+      // console.log("Inside DeletePost mutation: ", data, variables);
       if (data.success) {
         getPostRefetch();
         toast.success('Post has been deleted')
@@ -177,7 +177,7 @@ export default function PostCard({ postData, getPostRefetch }) {
     mutationFn: async (variables) => {
       return (
         await fetch(
-          `http://localhost:3001/api/post/comment-post/${variables.postId}/${variables.userId}`,
+          `${import.meta.env.VITE_API_URL}/api/post/comment-post/${variables.postId}/${variables.userId}`,
           {
             method: "PUT",
             headers: {
@@ -190,7 +190,7 @@ export default function PostCard({ postData, getPostRefetch }) {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside Comemnt mutation: ", data, variables);
+      // console.log("Inside Comemnt mutation: ", data, variables);
       if (data.success) {
         setPostComment("");
         getPostRefetch();
@@ -206,7 +206,7 @@ export default function PostCard({ postData, getPostRefetch }) {
     mutationFn: async (variables) => {
       return (
         await fetch(
-          `http://localhost:3001/api/post/delete-comment-post/${variables.postId}/${variables.commentId}`,
+          `${import.meta.env.VITE_API_URL}/api/post/delete-comment-post/${variables.postId}/${variables.commentId}`,
           {
             method: "DELETE",
             headers: {
@@ -217,7 +217,7 @@ export default function PostCard({ postData, getPostRefetch }) {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside delete Comemnt mutation: ", data, variables);
+      // console.log("Inside delete Comemnt mutation: ", data, variables);
       if (data.success) {
         toast.success('Comment has been deleted')
         getPostRefetch();
@@ -239,7 +239,7 @@ export default function PostCard({ postData, getPostRefetch }) {
 
   const handleComment = (userId, postId) => {
     if (postComment.trim()) {
-      console.log("postComment: ", { content: postComment, userId, postId });
+      // console.log("postComment: ", { content: postComment, userId, postId });
       commentPostMutation.mutate({ content: postComment, userId, postId });
     }
   };
@@ -261,7 +261,7 @@ export default function PostCard({ postData, getPostRefetch }) {
   };
 
   const handleShare = (postId) => {
-    console.log("ShareId: ", postId);
+    // console.log("ShareId: ", postId);
     if (postId) sharePostMutation.mutate({ postId });
   };
 
@@ -366,7 +366,7 @@ export default function PostCard({ postData, getPostRefetch }) {
         {/* Card Header: User Profile Picture, Name, and Timestamp */}
         <div className="card-header d-flex align-items-center">
           <img
-            src={`http://localhost:3001/api/auth/get-image/${postData?.userId?._id}`}
+            src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${postData?.userId?._id}`}
             alt="User Profile"
             className="rounded-circle mr-2"
             style={{ width: "40px", height: "40px" }}
@@ -394,7 +394,7 @@ export default function PostCard({ postData, getPostRefetch }) {
           </p>
           {postData?.isImage && (
             <img
-              src={`http://localhost:3001/api/post/get-image/${postData?._id}`}
+              src={`${import.meta.env.VITE_API_URL}/api/post/get-image/${postData?._id}`}
               alt="Post Image"
               className="post-image img-fluid mb-3"
             />
@@ -472,12 +472,12 @@ export default function PostCard({ postData, getPostRefetch }) {
                 key={e._id}
               >
                 <img
-                  src={`http://localhost:3001/api/auth/get-image/${e._id}`}
+                  src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${e._id}`}
                   alt="User Profile"
                   className="rounded-circle mr-2"
                   style={{ width: "40px", height: "40px" }}
                   onClick={() => {
-                    console.log("liked id: ", e._id);
+                    // console.log("liked id: ", e._id);
                     handleNavigate(e._id);
                   }}
                 />
@@ -525,7 +525,7 @@ export default function PostCard({ postData, getPostRefetch }) {
 
                         <div className="media ">
                           <img
-                            src={`http://localhost:3001/api/auth/get-image/${e?.user._id}`}
+                            src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${e?.user._id}`}
                             alt="User 2"
                             className="mr-3 rounded-circle"
                             style={{ width: 40, height: 40 }}
@@ -553,7 +553,7 @@ export default function PostCard({ postData, getPostRefetch }) {
             <div className="card">
               <div className="card-body d-flex align-items-start">
                 <img
-                  src={`http://localhost:3001/api/auth/get-image/${auth?.user?.id}`}
+                  src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${auth?.user?.id}`}
                   alt="User Profile"
                   className="rounded-circle mr-2"
                   style={{ width: "40px", height: "40px" }}
@@ -674,7 +674,7 @@ export default function PostCard({ postData, getPostRefetch }) {
                         <FontAwesomeIcon icon={faTimes} color="red" size="lg" />
                       </div>
                       <img
-                        src={`http://localhost:3001/api/post/get-image/${postData._id}`}
+                        src={`${import.meta.env.VITE_API_URL}/api/post/get-image/${postData._id}`}
                         alt="Post Image"
                         className="post-image img-fluid mb-3"
                       />

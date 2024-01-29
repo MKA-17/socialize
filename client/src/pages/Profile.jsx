@@ -28,7 +28,7 @@ export default function Profile() {
     queryKey: ["userData"],
     queryFn: async () => {
       let resp = await fetch(
-        `http://localhost:3001/api/user/get-user/${auth?.user?.id}`,
+        `${import.meta.env.VITE_API_URL}/api/user/get-user/${auth?.user?.id}`,
         {
           method: "GET",
           headers: {
@@ -51,7 +51,7 @@ export default function Profile() {
     queryKey: ["postData"],
     queryFn: async () => {
       let resp = await fetch(
-        `http://localhost:3001/api/user/get-post-user/${auth?.user?.id}`,
+        `${import.meta.env.VITE_API_URL}/api/user/get-post-user/${auth?.user?.id}`,
         {
           method: "GET",
           headers: {
@@ -71,7 +71,7 @@ export default function Profile() {
       Object.keys(variables).forEach((e) => dataForm.append(e, variables[e]));
 
       return (
-        await fetch(`http://localhost:3001/api/user/update-user`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/user/update-user`, {
           method: "PUT",
           headers: {
             authorization: auth.token,
@@ -81,7 +81,7 @@ export default function Profile() {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside userUpdate mutation: ", data, variables);
+      // console.log("Inside userUpdate mutation: ", data, variables);
       if (data.success) {
         //toast.success(data.message)
         profileRefetch();
@@ -91,14 +91,14 @@ export default function Profile() {
       //if(data.success === false)   toast.error(data.message)
     },
     onError: (error, variables, context) => {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       toast.error('Some Error has been occurred')
     },
   });
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log(userData);
+    // console.log(userData);
     updateUserMutation.mutate(userData);
     //setProfileModal(false);
   };
@@ -136,9 +136,7 @@ export default function Profile() {
       {profileData?.success && (
         <div>
           <nav className="navbar navbar-expand-md bg-primary navbar-dark">
-            <a className="navbar-brand">
-              <b>My Profile</b>
-            </a>
+             
             <button
               className="navbar-toggler"
               type="button"
@@ -172,7 +170,7 @@ export default function Profile() {
               <div className="col-md-4 offset-md-4 text-center">
                 {/* User DP */}
                 <img
-                  src={`http://localhost:3001/api/auth/get-image/${profileData?.userDetails?.id}`}
+                  src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${profileData?.userDetails?.id}`}
                   alt="User DP"
                   className="img-thumbnail mb-3"
                 />
@@ -249,7 +247,7 @@ export default function Profile() {
               />
             ) : (
               <img
-                src={`http://localhost:3001/api/auth/get-image/${profileData?.userDetails?.id}`}
+                src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${profileData?.userDetails?.id}`}
                 alt="User DP"
                 className="img-thumbnail mb-1"
                 style={{ width: "220px" }}
@@ -266,7 +264,7 @@ export default function Profile() {
               className="form-control-file"
               id="postImage"
               onChange={(e) => {
-                console.log(e.target.files[0]);
+                // console.log(e.target.files[0]);
                 setUserData((prev) => ({
                   ...prev,
                   newImage: e.target.files[0],
@@ -396,12 +394,12 @@ export default function Profile() {
                 key={e._id}
               >
                 <img
-                  src={`http://localhost:3001/api/auth/get-image/${e._id}`}
+                  src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${e._id}`}
                   alt="User Profile"
                   className="rounded-circle mr-2"
                   style={{ width: "40px", height: "40px" }}
                   onClick={() => {
-                    console.log("liked id: ", e._id);
+                    // console.log("liked id: ", e._id);
                     handleNavigate(e._id);
                   }}
                 />
@@ -429,12 +427,12 @@ export default function Profile() {
                 key={e._id}
               >
                 <img
-                  src={`http://localhost:3001/api/auth/get-image/${e._id}`}
+                  src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${e._id}`}
                   alt="User Profile"
                   className="rounded-circle mr-2"
                   style={{ width: "40px", height: "40px" }}
                   onClick={() => {
-                    console.log("liked id: ", e._id);
+                    // console.log("liked id: ", e._id);
                     handleNavigate(e._id);
                   }}
                 />

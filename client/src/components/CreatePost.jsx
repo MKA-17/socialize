@@ -24,7 +24,7 @@ export default function CreatePost({ getPostRefetch }) {
         <div className="card ">
           <div className="card-header d-flex align-items-center">
             <img
-              src={`http://localhost:3001/api/auth/get-image/${auth?.user?.id}`}
+              src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${auth?.user?.id}`}
               alt="User Profile"
               className="rounded-circle mr-2"
               style={{ width: "40px", height: "40px" }}
@@ -71,10 +71,10 @@ const CreatePostModal = ({ isModalOpen, setIsModalOpen, getPostRefetch }) => {
     mutationFn: async (variables) => {
       let dataform = new FormData();
       Object.keys(variables).forEach((e) => dataform.append(e, variables[e]));
-      console.log("productdata: ", dataform);
+      // console.log("productdata: ", dataform);
 
       return (
-        await fetch(`http://localhost:3001/api/post/create-post`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/post/create-post`, {
           method: "POST",
           headers: {
             authorization: auth.token,
@@ -84,7 +84,7 @@ const CreatePostModal = ({ isModalOpen, setIsModalOpen, getPostRefetch }) => {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside create post mutation: ", data, variables);
+      // console.log("Inside create post mutation: ", data, variables);
       if (data.success) {
         setIsModalOpen(false);
         setPostData({
@@ -106,7 +106,7 @@ const CreatePostModal = ({ isModalOpen, setIsModalOpen, getPostRefetch }) => {
     e.preventDefault();
     if (postData.content.trim() || postData.image)
       createPostMutation.mutate(postData);
-    console.log("postData: ", postData);
+    // console.log("postData: ", postData);
   };
 
   const ClipboardReader = async () => {
@@ -134,7 +134,7 @@ const CreatePostModal = ({ isModalOpen, setIsModalOpen, getPostRefetch }) => {
         <div className="card">
           <div className="card-header">
             <img
-              src={`http://localhost:3001/api/auth/get-image/${auth?.user?.id}`}
+              src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${auth?.user?.id}`}
               alt="User Profile"
               className="rounded-circle mr-2"
               style={{ width: "40px", height: "40px" }}

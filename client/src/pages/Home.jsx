@@ -22,7 +22,7 @@ export default function Home() {
   } = useQuery({
     queryKey: ["userData"],
     queryFn: async () => {
-      let resp = await fetch(`http://localhost:3001/api/post/get-post`, {
+      let resp = await fetch(`${import.meta.env.VITE_API_URL}/api/post/get-post`, {
         method: "GET",
         headers: {
           authorization: auth.token,

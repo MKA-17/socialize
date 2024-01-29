@@ -21,7 +21,7 @@ export default function LikedPost() {
       } = useQuery({
         queryKey: ["postData"],
         queryFn: async () => {
-          let resp = await fetch(`http://localhost:3001/api/user/get-liked-post`, {
+          let resp = await fetch(`${import.meta.env.VITE_API_URL}/api/user/get-liked-post`, {
             method: "GET",
             headers: {
               authorization: auth.token,
@@ -32,7 +32,7 @@ export default function LikedPost() {
           return resp.json();
         },
       });
-      //console.log("getPostData: ", getPostsData);
+      // console.log("getPostData: ", getPostsData);
       if(postIsError)  toast.error('Some Error has occurred.')
 
   return (

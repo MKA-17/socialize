@@ -29,7 +29,7 @@ export default function Profile() {
   } = useQuery({
     queryKey: ["userData"],
     queryFn: async () => {
-      let resp = await fetch(`http://localhost:3001/api/user/get-user/${userId}`, {
+      let resp = await fetch(`${import.meta.env.VITE_API_URL}/api/user/get-user/${userId}`, {
         method: "GET",
         headers: {
           authorization: auth.token,
@@ -49,7 +49,7 @@ export default function Profile() {
   } = useQuery({
     queryKey: ["postData"],
     queryFn: async () => {
-      let resp = await fetch(`http://localhost:3001/api/user/get-post-user/${userId}`, {
+      let resp = await fetch(`${import.meta.env.VITE_API_URL}/api/user/get-post-user/${userId}`, {
         method: "GET",
         headers: {
           authorization: auth.token,
@@ -65,7 +65,7 @@ export default function Profile() {
     mutationFn: async (variables) => {
       return (
         await fetch(
-          `http://localhost:3001/api/user/follow-user/${variables.followId}`,
+          `${import.meta.env.VITE_API_URL}/api/user/follow-user/${variables.followId}`,
           {
             method: "PUT",
             headers: {
@@ -76,26 +76,26 @@ export default function Profile() {
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside follow user mutation: ", data, variables);
+      // console.log("Inside follow user mutation: ", data, variables);
       if (data.success) {
         //getPostRefetch();
         profileRefetch();
       }
     },
     onError: (error, variables, context) => {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       //toast.error('Some Error has been occurred')
     },
   });
 
 
   const handleFollow = (followId)=>{
-    //console.log("followId :", followId)
+    // console.log("followId :", followId)
     if(followId) followUserMutation.mutate({followId});
   }
 
   const handleNavigate = (profileId) => {
-    //console.log("navigate ids: ", profileId, auth?.user?.id)
+    // console.log("navigate ids: ", profileId, auth?.user?.id)
    
     profileId === auth?.user?.id
       ? navigate(`/profile`)
@@ -104,7 +104,7 @@ export default function Profile() {
 
  
  
-  //console.log("getProfileData: ", profileData)
+  // console.log("getProfileData: ", profileData)
     useEffect(()=>{
       setHelmetObj((prev)=>({...prev, title: "Profile | Socialize"}))
       return ()=>{setHelmetObj((prev)=>({...prev, title: "Socialize"}))}
@@ -131,7 +131,7 @@ export default function Profile() {
               <div className="col-md-4 offset-md-4 text-center">
                 {/* User DP */}
                 <img
-                  src={`http://localhost:3001/api/auth/get-image/${profileData?.userDetails?.id}`}
+                  src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${profileData?.userDetails?.id}`}
                   alt="User DP"
                   className="img-thumbnail mb-3"
                 />
@@ -211,12 +211,12 @@ export default function Profile() {
                 key={e._id}
               >
                   <img
-                  src={`http://localhost:3001/api/auth/get-image/${e._id}`}
+                  src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${e._id}`}
                   alt="User Profile"
                   className="rounded-circle mr-2"
                   style={{ width: "40px", height: "40px" }}
                   onClick={() => {
-                    console.log("liked id: ", e._id)
+                    // console.log("liked id: ", e._id)
                     handleNavigate(e._id)
                   }}
                 />
@@ -246,12 +246,12 @@ export default function Profile() {
           key={e._id}
         >
             <img
-            src={`http://localhost:3001/api/auth/get-image/${e._id}`}
+            src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${e._id}`}
             alt="User Profile"
             className="rounded-circle mr-2"
             style={{ width: "40px", height: "40px" }}
             onClick={() => {
-              console.log("liked id: ", e._id)
+              // console.log("liked id: ", e._id)
               handleNavigate(e._id)
             }}
           />

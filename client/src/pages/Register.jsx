@@ -29,17 +29,17 @@ const navigate = useNavigate()
     mutationFn: async (variables) => {
       let dataform = new FormData();
       Object.keys(variables).forEach((e) => dataform.append(e, variables[e]));
-      console.log("productdata: ", dataform);
+      // console.log("productdata: ", dataform);
 
       return (
-        await fetch(`http://localhost:3001/api/auth/register`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
           method: "POST",
           body: dataform,
         })
       ).json();
     },
     onSuccess: (data, variables, context) => {
-      console.log("Inside registerForm mutation: ", data, variables);
+      // console.log("Inside registerForm mutation: ", data, variables);
       if (data.success) {
         toast.success(data.message)
         //navigate("/login")
@@ -47,15 +47,15 @@ const navigate = useNavigate()
       if(data.success === false)   toast.error(data.message)
     },
     onError: (error, variables, context) => {
-      console.log("error: ", error);
+      // console.log("error: ", error);
       toast.error('Some Error has been occurred')
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log(e.target);
-    console.log(formData);
+    console.log(e.target);
+    // console.log(formData);
     registerMutation.mutate(formData);
   };
 
@@ -161,7 +161,7 @@ const navigate = useNavigate()
             className="form-control-file"
             id="postImage"
             onChange={(e) => {
-              console.log(e.target.files[0]);
+              // console.log(e.target.files[0]);
               setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
             }}
             style={{ display: "none" }}
