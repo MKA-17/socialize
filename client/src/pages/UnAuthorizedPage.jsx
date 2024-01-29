@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useHelmet } from "../context/helmet";
+import { Link } from "react-router-dom";
 
 export default function UnAuthorizedPage() {
     const [helmetObj, setHelmetObj] = useHelmet()
@@ -18,9 +19,9 @@ export default function UnAuthorizedPage() {
             <p className="card-text">
               You do not have permission to access this page.
             </p>
-            <a href="/login" className="btn btn-primary">
+            <Link to="/login" className="btn btn-primary">
               Login First
-            </a>
+            </Link>
           </div>
         </div>
       </div>
