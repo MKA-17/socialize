@@ -250,10 +250,10 @@ export default function PostCard({ postData, getPostRefetch }) {
 
   const handleEditPostSubmit = (event) => {
     event.preventDefault();
-    if (editPost.content.trim()) {
-      //console.log("edit: ", editPost)
+    // if (editPost) {
+      console.log("edit: ", editPost)
       editPostMutation.mutate({ postId: postData._id, data: editPost });
-    }
+    // }
   };
 
   const handleDeletePost = () => {
@@ -397,7 +397,8 @@ export default function PostCard({ postData, getPostRefetch }) {
               src={`${import.meta.env.VITE_API_URL}/api/post/get-image/${postData?._id}`}
               alt="Post Image"
               className="post-image img-fluid mb-3"
-            />
+              style={{ maxWidth: '300px', maxHeight: '400px' }} 
+             />
           )}
           {/* Like, Comment, and Share Buttons */}
           <div className="d-flex flex-wrap justify-content-between">
@@ -619,44 +620,47 @@ export default function PostCard({ postData, getPostRefetch }) {
                 <hr />
                 <div className="form-group">
                   <label htmlFor="postImage">
-                    Upload Image/Video
+                    Upload Image
+                   </label>
                     <br />
-                    <FontAwesomeIcon icon={faImage} color="yellow" size="2x" />
-                  </label>
                   <input
                     type="file"
                     className="form-control-file"
                     id="postImage"
-                    onChange={(e) =>
+                    onChange={(e) =>{
+                      // console.log("newImage: ", e.target.files[0])
                       setEditPost((prev) => ({
                         ...prev,
                         image: e.target.files[0],
                         previous: false,
-                      }))
+                      }))}
                     }
-                    style={{ display: "none" }}
+                    // style={{ display: "none" }}
                   />
                   <br />
-
                   {editPost.image && (
                     <div
-                      onClick={() =>
+                      onClick={(e) =>{
+                        // console.log("remove image")
                         setEditPost((prev) => ({
                           ...prev,
                           image: "",
                           previous: false,
-                        }))
+                        }))}
                       }
                     >
+                      {/* {console.log("edit post data: ", editPost)} */}
                       <FontAwesomeIcon icon={faTimes} color="red" size="lg" />
                     </div>
                   )}
                   {editPost.image && (
+                    
                     <img
                       src={URL.createObjectURL(editPost.image)}
                       alt="Post Image"
                       className="post-image img-fluid mb-3"
-                    />
+                      style={{ maxWidth: '300px', maxHeight: '200px' }}   
+                   />
                   )}
 
                   {/* URL.createObjectURL(postData.image) || '' */}
@@ -664,6 +668,7 @@ export default function PostCard({ postData, getPostRefetch }) {
                     <>
                       <div
                         onClick={() =>
+                          
                           setEditPost((prev) => ({
                             ...prev,
                             image: "",
@@ -681,7 +686,7 @@ export default function PostCard({ postData, getPostRefetch }) {
                     </>
                   )}
                 </div>
-
+                <br />
                 <button type="submit" className="btn btn-primary">
                   Update
                 </button>

@@ -135,8 +135,9 @@ export default function Profile() {
     <Toaster/>
       {profileData?.success && (
         <div>
-          <nav className="navbar navbar-expand-md bg-primary navbar-dark">
-             
+          <nav  className="navbar navbar-expand-lg navbar-light bg-light">
+          <h1>My Profile</h1>
+ 
             <button
               className="navbar-toggler"
               type="button"
@@ -172,8 +173,10 @@ export default function Profile() {
                 <img
                   src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${profileData?.userDetails?.id}`}
                   alt="User DP"
-                  className="img-thumbnail mb-3"
+                  className="post-image img-fluid mb-3"
+                  style={{ maxWidth: '300px', maxHeight: '400px' }} 
                 />
+                
                 {/* User Name */}
                 <h3>
                   {profileData?.userDetails?.firstName +

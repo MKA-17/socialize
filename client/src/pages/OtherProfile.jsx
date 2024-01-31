@@ -123,7 +123,7 @@ export default function Profile() {
       {profileData?.success && (
         <div>
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <h1>My Profile</h1>
+            <h1>Profile Page</h1>
           </nav>
           {/* User Profile Section */}
           <div className="container mt-4">
@@ -134,6 +134,8 @@ export default function Profile() {
                   src={`${import.meta.env.VITE_API_URL}/api/auth/get-image/${profileData?.userDetails?.id}`}
                   alt="User DP"
                   className="img-thumbnail mb-3"
+                  style={{ maxWidth: '300px', maxHeight: '400px' }} 
+
                 />
                 {/* User Name */}
                 <h3>

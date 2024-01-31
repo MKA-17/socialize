@@ -42,7 +42,7 @@ const navigate = useNavigate()
       // console.log("Inside registerForm mutation: ", data, variables);
       if (data.success) {
         toast.success(data.message)
-        //navigate("/login")
+        navigate("/login")
       }
       if(data.success === false)   toast.error(data.message)
     },
@@ -161,12 +161,21 @@ const navigate = useNavigate()
             className="form-control-file"
             id="postImage"
             onChange={(e) => {
-              // console.log(e.target.files[0]);
+              console.log(e.target.files[0]);
               setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
             }}
             style={{ display: "none" }}
           />
         </div>
+          {formData.image?.type && (
+                    <img
+                    src={URL.createObjectURL(formData.image)}
+                    alt="Post Image"
+                    className="post-image img-fluid mb-3"
+                    style={{ maxWidth: '300px', maxHeight: '200px' }}
+                  />
+                  
+                  )}
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
